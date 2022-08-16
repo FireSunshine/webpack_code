@@ -12,9 +12,16 @@ module.exports = {
     filename: 'main.js'
   },
   // 加载器
-  module:{
-    rules:[
+  module: {
+    rules: [
       // loader的配置
+      {
+        test: /\.css$/, // 检测文件
+        use: [// 执行顺序，从右到左（从上往下）
+          'style-loader', // 将js中css通过创建style标签添加 html文件中生效
+          'css-loader' // 将css资源编译成commonjs的模块到js中
+        ]
+      }
     ],
   },
   // 插件
