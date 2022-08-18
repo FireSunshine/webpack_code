@@ -47,6 +47,17 @@ module.exports = {
           "stylus-loader" // 将styl编译成css文件
         ],
       },
+      {
+        test: /\.(png|jpe?g|gif|webp|svg)$/,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            // 小于30kb的图片转base64
+            // 优点：减少请求数量  缺点：体积会更大
+            maxSize: 30 * 1024 // 30kb
+          }
+        }
+      }
     ],
   },
   // 插件
