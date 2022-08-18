@@ -9,7 +9,7 @@ module.exports = {
     // __dirname, nodejs的变量， 代表当前文件夹目录
     path: path.resolve(__dirname, 'dist'), // 绝对路径
     // 文件名
-    filename: 'main.js'
+    filename: 'static/js/main.js' // 将js文件输出到 static/js 目录中
   },
   // 加载器
   module: {
@@ -56,6 +56,14 @@ module.exports = {
             // 优点：减少请求数量  缺点：体积会更大
             maxSize: 30 * 1024 // 30kb
           }
+        },
+        generator: {
+           // 将图片文件输出到 static/images 目录中
+          // 将图片文件命名 [hash:8][ext][query]
+          // [hash:8]: hash值取8位
+          // [ext]: 使用之前的文件扩展名
+          // [query]: 添加之前的query参数
+          filename: 'static/images/[hash:8][ext][query]'
         }
       }
     ],
