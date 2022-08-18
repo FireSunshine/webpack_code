@@ -26,10 +26,17 @@ module.exports = {
         test: /\.less$/i,
         // loader: 'xxxx', // 只能使用一个loader
         use: [
-          // compiles Less to CSS
           "style-loader",
           "css-loader",
-          "less-loader",
+          "less-loader", // 将less编译成css文件
+        ],
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          "style-loader",
+          "css-loader",
+          "sass-loader", // 将sass编译成css文件
         ],
       },
     ],
