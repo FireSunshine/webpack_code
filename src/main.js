@@ -8,5 +8,7 @@ import './sass/index.sass'
 import './sass/index.scss'
 import './stylus/index.styl'
 
+let res = 12345;
+console.log(res);
 console.log(count(2, 1));
 console.log(sum(1, 2, 3, 4));
