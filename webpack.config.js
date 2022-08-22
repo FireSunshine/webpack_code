@@ -70,7 +70,7 @@ module.exports = {
         }
       },
       {
-        test: /\.(ttf|woff2?)$/,
+        test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
         type: 'asset/resource',
         generator: {
           // 将图片文件输出到 static/images 目录中
