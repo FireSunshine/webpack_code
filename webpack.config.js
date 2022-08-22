@@ -9,7 +9,10 @@ module.exports = {
     // __dirname, nodejs的变量， 代表当前文件夹目录
     path: path.resolve(__dirname, 'dist'), // 绝对路径
     // 文件名
-    filename: 'static/js/main.js' // 将js文件输出到 static/js 目录中
+    filename: 'static/js/main.js', // 将js文件输出到 static/js 目录中
+    // 自动将上次打包目录资源清空
+    // 原理： 在打包前，将path整个目录清空， 在进行打包
+    clean: true, 
   },
   // 加载器
   module: {
@@ -58,7 +61,7 @@ module.exports = {
           }
         },
         generator: {
-           // 将图片文件输出到 static/images 目录中
+          // 将图片文件输出到 static/images 目录中
           // 将图片文件命名 [hash:8][ext][query]
           // [hash:8]: hash值取8位
           // [ext]: 使用之前的文件扩展名
