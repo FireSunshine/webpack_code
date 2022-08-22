@@ -13,7 +13,7 @@ module.exports = {
     filename: 'static/js/main.js', // 将js文件输出到 static/js 目录中
     // 自动将上次打包目录资源清空
     // 原理： 在打包前，将path整个目录清空， 在进行打包
-    clean: true, 
+    clean: true,
   },
   // 加载器
   module: {
@@ -81,6 +81,15 @@ module.exports = {
           // [query]: 添加之前的query参数
           filename: 'static/media/[hash:8][ext][query]'
         }
+      },
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/, // 排除node_modules代码不编译
+        loader: 'babel-loader',
+        // 智能预设
+        // options: {
+        //   presets: ['@babel/preset-env']
+        // }
       }
     ],
   },
