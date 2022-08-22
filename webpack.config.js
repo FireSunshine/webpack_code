@@ -68,6 +68,18 @@ module.exports = {
           // [query]: 添加之前的query参数
           filename: 'static/images/[hash:8][ext][query]'
         }
+      },
+      {
+        test: /\.(ttf|woff2?)$/,
+        type: 'asset/resource',
+        generator: {
+          // 将图片文件输出到 static/images 目录中
+          // 将图片文件命名 [hash:8][ext][query]
+          // [hash:8]: hash值取8位
+          // [ext]: 使用之前的文件扩展名
+          // [query]: 添加之前的query参数
+          filename: 'static/media/[hash:8][ext][query]'
+        }
       }
     ],
   },
