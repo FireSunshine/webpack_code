@@ -1,6 +1,7 @@
 const path = require('path'); // nodejs 核心模块， 专门用来处理路径问题
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   // 入口
@@ -24,7 +25,8 @@ module.exports = {
       {
         test: /\.css$/, // 检测文件
         use: [// 执行顺序，从右到左（从上往下）
-          'style-loader', // 将js中css通过创建style标签添加 html文件中生效
+          // 'style-loader', // 将js中css通过创建style标签添加 html文件中生效
+          MiniCssExtractPlugin.loader, // 提取css文件成单独文件
           'css-loader' // 将css资源编译成commonjs的模块到js中
         ]
       },
@@ -32,7 +34,7 @@ module.exports = {
         test: /\.less$/i,
         // loader: 'xxxx', // 只能使用一个loader
         use: [
-          "style-loader",
+          MiniCssExtractPlugin.loader,
           "css-loader",
           "less-loader", // 将less编译成css文件
         ],
@@ -40,7 +42,7 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i,
         use: [
-          "style-loader",
+          MiniCssExtractPlugin.loader,
           "css-loader",
           "sass-loader", // 将sass编译成css文件
         ],
@@ -48,7 +50,7 @@ module.exports = {
       {
         test: /\.styl$/,
         use: [
-          "style-loader",
+          MiniCssExtractPlugin.loader,
           "css-loader",
           "stylus-loader" // 将styl编译成css文件
         ],
@@ -105,7 +107,10 @@ module.exports = {
       // 以 public/index.html 为模板创建文件
       // 新的html文件有两个特点：1. 内容和源文件一致 2. 自动引入打包生成的js等资源
       template: path.resolve(__dirname, '../public/index.html')
-    })
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'static/css/main.css'
+    }),
   ],
   // 开发服务器: 不会输出资源，在内存中编译打包
   // devServer: {
