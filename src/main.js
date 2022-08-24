@@ -11,4 +11,14 @@ import './stylus/index.styl'
 let res = 12345;
 console.log(res);
 console.log(count(2, 1));
-console.log(sum(1, 2, 3, 4));
+console.log(sum(1, 2, 3, 4, 5, 6));
+
+
+// 判断是否支持HMR功能
+if (module.hot) {
+  module.hot.accept("./js/count", function (count) {
+    const result1 = count(2, 1);
+    console.log(result1);
+  });
+  module.hot.accept('./js/sum')
+}
