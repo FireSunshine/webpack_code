@@ -88,7 +88,8 @@ module.exports = {
           },
           {
             test: /\.js$/,
-            exclude: /(node_modules|bower_components)/, // 排除node_modules代码不编译
+            // exclude: /(node_modules|bower_components)/, // 排除node_modules代码不编译
+            include: path.resolve(__dirname, '../src'), // 也可以用包含
             loader: 'babel-loader',
             // 智能预设
             // options: {
@@ -103,7 +104,8 @@ module.exports = {
   plugins: [
     new ESLintPlugin({
       // 检测哪些文件
-      context: path.resolve(__dirname, '../src')
+      context: path.resolve(__dirname, '../src'),
+      exclude: "node_modules", // 默认值
     }),
     new HtmlWebpackPlugin({
       // 以 public/index.html 为模板创建文件
