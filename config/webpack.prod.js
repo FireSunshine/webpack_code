@@ -43,63 +43,67 @@ module.exports = {
   // 加载器
   module: {
     rules: [
-      // loader的配置
       {
-        test: /\.css$/, // 检测文件
-        use: getStyleLoader()
-      },
-      {
-        test: /\.less$/i,
-        // loader: 'xxxx', // 只能使用一个loader
-        use: getStyleLoader("less-loader"), // 将less编译成css文件
-      },
-      {
-        test: /\.s[ac]ss$/i,
-        use: getStyleLoader("sass-loader"),
-      },
-      {
-        test: /\.styl$/,
-        use: getStyleLoader("stylus-loader"),
-      },
-      {
-        test: /\.(png|jpe?g|gif|webp|svg)$/,
-        type: 'asset',
-        parser: {
-          dataUrlCondition: {
-            // 小于30kb的图片转base64
-            // 优点：减少请求数量  缺点：体积会更大
-            maxSize: 30 * 1024 // 30kb
+        oneOf: [
+          // loader的配置
+          {
+            test: /\.css$/, // 检测文件
+            use: getStyleLoader()
+          },
+          {
+            test: /\.less$/i,
+            // loader: 'xxxx', // 只能使用一个loader
+            use: getStyleLoader("less-loader"), // 将less编译成css文件
+          },
+          {
+            test: /\.s[ac]ss$/i,
+            use: getStyleLoader("sass-loader"),
+          },
+          {
+            test: /\.styl$/,
+            use: getStyleLoader("stylus-loader"),
+          },
+          {
+            test: /\.(png|jpe?g|gif|webp|svg)$/,
+            type: 'asset',
+            parser: {
+              dataUrlCondition: {
+                // 小于30kb的图片转base64
+                // 优点：减少请求数量  缺点：体积会更大
+                maxSize: 30 * 1024 // 30kb
+              }
+            },
+            generator: {
+              // 将图片文件输出到 static/images 目录中
+              // 将图片文件命名 [hash:8][ext][query]
+              // [hash:8]: hash值取8位
+              // [ext]: 使用之前的文件扩展名
+              // [query]: 添加之前的query参数
+              filename: 'static/images/[hash:8][ext][query]'
+            }
+          },
+          {
+            test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
+            type: 'asset/resource',
+            generator: {
+              // 将图片文件输出到 static/images 目录中
+              // 将图片文件命名 [hash:8][ext][query]
+              // [hash:8]: hash值取8位
+              // [ext]: 使用之前的文件扩展名
+              // [query]: 添加之前的query参数
+              filename: 'static/media/[hash:8][ext][query]'
+            }
+          },
+          {
+            test: /\.js$/,
+            exclude: /(node_modules|bower_components)/, // 排除node_modules代码不编译
+            loader: 'babel-loader',
+            // 智能预设
+            // options: {
+            //   presets: ['@babel/preset-env']
+            // }
           }
-        },
-        generator: {
-          // 将图片文件输出到 static/images 目录中
-          // 将图片文件命名 [hash:8][ext][query]
-          // [hash:8]: hash值取8位
-          // [ext]: 使用之前的文件扩展名
-          // [query]: 添加之前的query参数
-          filename: 'static/images/[hash:8][ext][query]'
-        }
-      },
-      {
-        test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
-        type: 'asset/resource',
-        generator: {
-          // 将图片文件输出到 static/images 目录中
-          // 将图片文件命名 [hash:8][ext][query]
-          // [hash:8]: hash值取8位
-          // [ext]: 使用之前的文件扩展名
-          // [query]: 添加之前的query参数
-          filename: 'static/media/[hash:8][ext][query]'
-        }
-      },
-      {
-        test: /\.js$/,
-        exclude: /(node_modules|bower_components)/, // 排除node_modules代码不编译
-        loader: 'babel-loader',
-        // 智能预设
-        // options: {
-        //   presets: ['@babel/preset-env']
-        // }
+        ]
       }
     ],
   },
