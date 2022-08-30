@@ -1,6 +1,9 @@
+const os = require('os')
 const path = require('path'); // nodejs 核心模块， 专门用来处理路径问题
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const threads = os.cpus().length; // cpu核数
 
 module.exports = {
   // 入口
@@ -90,11 +93,23 @@ module.exports = {
             test: /\.js$/,
             // exclude: /(node_modules|bower_components)/, // 排除node_modules代码不编译
             include: path.resolve(__dirname, '../src'), // 也可以用包含
-            loader: 'babel-loader',
-            // 智能预设
-            // options: {
-            //   presets: ['@babel/preset-env']
-            // }
+            use: [
+              {
+                loader: 'thread-loader', // 开启多进程
+                options: {
+                  workers: threads // 数量
+                }
+              },
+              {
+                loader: 'babel-loader',
+                options: {
+                  // 智能预设
+                  // presets: ['@babel/preset-env']
+                  cacheDirectory: true, // 开启babel编译缓存
+                  cacheCompression: false, // 缓存文件不要压缩
+                }
+              }
+            ]
           }
         ]
       }

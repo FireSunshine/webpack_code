@@ -1,8 +1,12 @@
+const os = require('os')
 const path = require('path'); // nodejs 核心模块， 专门用来处理路径问题
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserWebpackPlugin = require('terser-webpack-plugin')
+
+const threads = os.cpus().length; // cpu核数
 
 // 获取处理样式的Loaders
 function getStyleLoader(pre) {
@@ -98,13 +102,23 @@ module.exports = {
             test: /\.js$/,
             // exclude: /(node_modules|bower_components)/, // 排除node_modules代码不编译
             include: path.resolve(__dirname, '../src'),
-            loader: 'babel-loader',
-            options: {
-              // 智能预设
-              // presets: ['@babel/preset-env']
-              cacheDirectory: true, // 开启babel编译缓存
-              cacheCompression: false, // 缓存文件不要压缩
-            }
+            use: [
+              {
+                loader: 'thread-loader', // 开启多进程
+                options: {
+                  workers: threads // 数量
+                }
+              },
+              {
+                loader: 'babel-loader',
+                options: {
+                  // 智能预设
+                  // presets: ['@babel/preset-env']
+                  cacheDirectory: true, // 开启babel编译缓存
+                  cacheCompression: false, // 缓存文件不要压缩
+                }
+              }
+            ]
           }
         ]
       }
@@ -117,7 +131,8 @@ module.exports = {
       context: path.resolve(__dirname, '../src'),
       exclude: "node_modules", // 默认值
       cache: true, // 开启缓存
-      cacheLocation: path.resolve(__dirname, '../node_modules/.cache/.eslintcache')
+      cacheLocation: path.resolve(__dirname, '../node_modules/.cache/.eslintcache'),
+      threads, // 开启多进程
     }),
     new HtmlWebpackPlugin({
       // 以 public/index.html 为模板创建文件
@@ -127,8 +142,23 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'static/css/main.css'
     }),
-    new CssMinimizerPlugin(),
+    // new CssMinimizerPlugin(),
+    // new TerserWebpackPlugin({
+    //   parallel: threads // 开启多进程
+    // }),
   ],
+  optimization: {
+    minimize: true,
+    // 压缩的操作
+    minimizer: [
+      // 压缩css
+      new CssMinimizerPlugin(),
+      // 压缩js
+      new TerserWebpackPlugin({
+        parallel: threads // 开启多进程
+      }),
+    ]
+  },
   // 开发服务器: 不会输出资源，在内存中编译打包
   // devServer: {
   //   host: "localhost", // 启动服务器域名
