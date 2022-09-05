@@ -15,6 +15,12 @@ console.log(count(2, 1));
 console.log(sum(1, 2, 3, 4, 5, 6));
 console.log(chu(5, 5));
 
+document.getElementById('btn').onclick = function () {
+  import('./js/split').then(({ codeSplit }) => {
+    console.log(codeSplit("1234567-023$%^&89"));
+  })
+}
+
 
 // 判断是否支持HMR功能
 if (module.hot) {
