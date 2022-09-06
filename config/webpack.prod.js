@@ -41,6 +41,7 @@ module.exports = {
     path: path.resolve(__dirname, '../dist'), // 绝对路径
     // 文件名
     filename: 'static/js/main.js', // 将js文件输出到 static/js 目录中
+    chunkFilename: 'static/js/[name].thunk.js', // d动态导入输出资源命名方式
     // 自动将上次打包目录资源清空
     // 原理： 在打包前，将path整个目录清空， 在进行打包
     clean: true,
