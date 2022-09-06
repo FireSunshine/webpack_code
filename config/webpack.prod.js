@@ -40,8 +40,10 @@ module.exports = {
     // 生产模式需要输出文件
     path: path.resolve(__dirname, '../dist'), // 绝对路径
     // 文件名
-    filename: 'static/js/main.js', // 将js文件输出到 static/js 目录中
-    chunkFilename: 'static/js/[name].thunk.js', // d动态导入输出资源命名方式
+    filename: 'static/js/[name].js', // 将js文件输出到 static/js 目录中
+    chunkFilename: 'static/js/[name].chunk.js', // d动态导入输出资源命名方式
+    // 图片、字体等通过type：asset处理资源命名方式
+    assetModuleFilename: 'static/media/[hash:8][ext][query]',
     // 自动将上次打包目录资源清空
     // 原理： 在打包前，将path整个目录清空， 在进行打包
     clean: true,
@@ -79,26 +81,26 @@ module.exports = {
                 maxSize: 30 * 1024 // 30kb
               }
             },
-            generator: {
-              // 将图片文件输出到 static/images 目录中
-              // 将图片文件命名 [hash:8][ext][query]
-              // [hash:8]: hash值取8位
-              // [ext]: 使用之前的文件扩展名
-              // [query]: 添加之前的query参数
-              filename: 'static/images/[hash:8][ext][query]'
-            }
+            // generator: {
+            //   // 将图片文件输出到 static/images 目录中
+            //   // 将图片文件命名 [hash:8][ext][query]
+            //   // [hash:8]: hash值取8位
+            //   // [ext]: 使用之前的文件扩展名
+            //   // [query]: 添加之前的query参数
+            //   filename: 'static/images/[hash:8][ext][query]'
+            // }
           },
           {
             test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
             type: 'asset/resource',
-            generator: {
-              // 将图片文件输出到 static/images 目录中
-              // 将图片文件命名 [hash:8][ext][query]
-              // [hash:8]: hash值取8位
-              // [ext]: 使用之前的文件扩展名
-              // [query]: 添加之前的query参数
-              filename: 'static/media/[hash:8][ext][query]'
-            }
+            // generator: {
+            //   // 将图片文件输出到 static/images 目录中
+            //   // 将图片文件命名 [hash:8][ext][query]
+            //   // [hash:8]: hash值取8位
+            //   // [ext]: 使用之前的文件扩展名
+            //   // [query]: 添加之前的query参数
+            //   filename: 'static/media/[hash:8][ext][query]'
+            // }
           },
           {
             test: /\.js$/,
@@ -143,7 +145,8 @@ module.exports = {
       template: path.resolve(__dirname, '../public/index.html')
     }),
     new MiniCssExtractPlugin({
-      filename: 'static/css/main.css'
+      filename: 'static/css/[name].css',
+      chunkFilename: 'static/css/[name].thunk.css',
     }),
     // new CssMinimizerPlugin(),
     // new TerserWebpackPlugin({
