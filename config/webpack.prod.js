@@ -41,8 +41,9 @@ module.exports = {
     // 生产模式需要输出文件
     path: path.resolve(__dirname, '../dist'), // 绝对路径
     // 文件名
-    filename: 'static/js/[name].js', // 将js文件输出到 static/js 目录中
-    chunkFilename: 'static/js/[name].chunk.js', // d动态导入输出资源命名方式
+    // [contenthash:8]使用contenthash，取8位长度
+    filename: 'static/js/[name].[contenthash:8].js', // 将js文件输出到 static/js 目录中
+    chunkFilename: 'static/js/[name].[contenthash:8].chunk.js', // d动态导入输出资源命名方式
     // 图片、字体等通过type：asset处理资源命名方式
     assetModuleFilename: 'static/media/[hash:8][ext][query]',
     // 自动将上次打包目录资源清空
@@ -146,8 +147,9 @@ module.exports = {
       template: path.resolve(__dirname, '../public/index.html')
     }),
     new MiniCssExtractPlugin({
-      filename: 'static/css/[name].css',
-      chunkFilename: 'static/css/[name].thunk.css',
+      // 定义输出文件名和目录
+      filename: "static/css/[name].[contenthash:8].css",
+      chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
     }),
     new PreloadWebpackPlugin({
       rel: "preload", // preload兼容性更好
@@ -220,6 +222,10 @@ module.exports = {
       //     reuseExistingChunk: true,
       //   },
     },
+    // 提取runtime文件
+    runtimeChunk: {
+      name: (entrypoint) => `runtime~${entrypoint.name}`, // runtime文件命名规则
+    }
   },
   // 开发服务器: 不会输出资源，在内存中编译打包
   // devServer: {
