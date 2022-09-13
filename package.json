@@ -13,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.18.10",
+    "@babel/eslint-parser": "^7.18.9",
     "@babel/plugin-transform-runtime": "^7.18.10",
     "@babel/preset-env": "^7.18.10",
     "@vue/preload-webpack-plugin": "^2.0.0",
@@ -48,5 +49,8 @@
     "last 2 version",
     "> 1%",
     "not dead"
-  ]
+  ],
+  "dependencies": {
+    "core-js": "^3.25.1"
+  }
 }

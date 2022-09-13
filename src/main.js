@@ -1,3 +1,7 @@
+// 完整引入
+import "core-js";
+// 按需引入
+import "core-js/es/promise";
 import count from './js/count'
 import sum from './js/sum'
 import { chu } from './js/math'
@@ -33,3 +37,13 @@ if (module.hot) {
   });
   module.hot.accept('./js/sum')
 }
+
+const promise = new Promise((resolve) => {
+  resolve('success')
+})
+promise.then((res) => {
+  console.log(res);
+})
+
+const arr = [1,2,3,4]
+console.log(arr.includes(1));
